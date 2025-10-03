@@ -1,2 +1,2 @@
-# book
-Projeto desenvolvido pelos alunos do Desenvolve oferecido pela Koru, turma 3_10
+# book-backend
+Projeto final desenvolvido pelos alunos da Koru, turma 3_10 (BackEnd)
