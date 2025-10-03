@@ -12,16 +12,40 @@ model Usuario {
   nome      String
   email     String   @unique
   senha     String
-  criadoEm  DateTime @default(now())
+  criadoEm  DateTime @default(now()) @map("criadoem")
   livros    Livro[]
 }
 
+
+enum StatusLeitura {
+  QUERO_LER
+  LENDO
+  LIDO
+  PAUSADO
+  ABANDONADO
+}
+
 model Livro {
-  id        Int      @id @default(autoincrement())
-  titulo    String
-  autor     String
-  ano       Int?
-  criadoEm  DateTime @default(now())
-  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
-  usuarioId Int
+  id          String         @id @default(uuid())
+  title       String         @map("titulo")
+  author      String         @map("autor")
+  
+  genre       String?
+  year        Int?
+  pages       Int?
+  rating      Int?
+  synopsis    String?
+  cover       String?
+  
+  status      StatusLeitura?
+  currentPage Int?
+  notes       String?
+  
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  usuario     Usuario        @relation(fields: [usuarioId], references: [id])
+  usuarioId   Int
+  
+  @@map("livros")
 }
