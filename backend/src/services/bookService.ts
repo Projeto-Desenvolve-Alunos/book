@@ -67,10 +67,27 @@ async function updateBook(id: string, data: {
   return updatedBook;
 }
 
+async function deleteBook(id: string) {
+  const book = await prisma.livro.findUnique({
+    where: { id },
+  });
+
+  if (!book) {
+    return null; // livro não encontrado
+  }
+
+  await prisma.livro.delete({
+    where: { id },
+  });
+
+  return book; // retorna o livro deletado (opcional)
+}
+
 
 export const BookService = {
     getAllBooks,
     getBookById,
     addBook,
-    updateBook
+    updateBook,
+    deleteBook
 };

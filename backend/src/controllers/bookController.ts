@@ -88,10 +88,32 @@ async function updateBook(req: Request, res: Response) {
   }
 }
 
+async function deleteBook(req: Request, res: Response) {
+      
+    try {
+        const { id } = req.params;
+    
+        if (!id || typeof id !== "string") {
+            return res.status(404).json({ error: "ID não fornecido ou não encontrado" });
+        }
+
+        const deleted = await BookService.deleteBook(id);
+
+        if (!deleted) {
+            return res.status(404).json({ error: "Livro não encontrado" });
+        }
+
+        return res.status(200).json({ message: "Livro deletado com sucesso" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Erro ao deletar o livro" });
+    }
+}
 
 export const bookController = {
     getAllBooks,
     getBookById,
     addBook,
-    updateBook
+    updateBook,
+    deleteBook
 };
