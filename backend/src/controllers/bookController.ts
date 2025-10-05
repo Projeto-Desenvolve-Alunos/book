@@ -18,7 +18,7 @@ async function getBookById(req: Request, res: Response){
         const { id } = req.params;
 
         if (!id || typeof id !== "string") {
-            return res.status(400).json({ error: "ID não fornecido" });
+            return res.status(400).json({ error: "ID não fornecido ou não encontrado" });
         }
 
         const book = await BookService.getBookById(id);
@@ -71,10 +71,27 @@ async function addBook(req: Request, res: Response) {
   }
 }
 
+async function updateBook(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+
+    if (!id || typeof id !== "string") {
+        return res.status(400).json({ error: "ID não fornecido ou inválido" });
+    }
+    const updatedBook = await BookService.updateBook(id, data);
+
+    return res.status(200).json(updatedBook);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Erro ao atualizar o livro." });
+  }
+}
 
 
 export const bookController = {
     getAllBooks,
     getBookById,
-    addBook
+    addBook,
+    updateBook
 };

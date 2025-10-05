@@ -9,5 +9,6 @@ const router = Router();
 router.get("/", bookController.getAllBooks);
 router.get("/book/:id", bookController.getBookById);
 router.post("/create", bookController.addBook);
+router.put("/book/:id", bookController.updateBook);
 
 export default router;
