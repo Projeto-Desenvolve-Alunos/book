@@ -73,21 +73,20 @@ async function deleteBook(id: string) {
   });
 
   if (!book) {
-    return null; // livro não encontrado
+    return null;
   }
 
   await prisma.livro.delete({
     where: { id },
   });
 
-  return book; // retorna o livro deletado (opcional)
+  return book;
 }
 
-
 export const BookService = {
-    getAllBooks,
-    getBookById,
-    addBook,
-    updateBook,
-    deleteBook
+  getAllBooks,
+  getBookById,
+  addBook,
+  updateBook,
+  deleteBook
 };
