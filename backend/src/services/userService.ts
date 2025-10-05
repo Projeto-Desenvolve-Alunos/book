@@ -28,8 +28,43 @@ async function addUser(data: {
     return novoUsuario;
 }
 
+async function updateUser(
+  id: number,
+  data: { nome?: string; email?: string; senha?: string }
+) {
+  const user = await prisma.usuario.findUnique({ where: { id } });
+  if (!user) throw new Error("Usuário não encontrado");
+
+  const updatedUser = await prisma.usuario.update({
+    where: { id },
+    data,
+  });
+
+  return updatedUser;
+}
+
+export const deleteUser= async (id: number) => {
+  // Verifica se o usuário existe
+  const usuario = await prisma.usuario.findUnique({
+    where: { id },
+  });
+
+  if (!usuario) {
+    throw new Error("Usuário não encontrado");
+  }
+
+  // Deleta o usuário
+  await prisma.usuario.delete({
+    where: { id },
+  });
+
+  return { message: "Usuário deletado com sucesso" };
+};
+
 export const UserService = {
     getAllUsers,
     getUserById,
-    addUser
+    addUser,
+    updateUser,
+    deleteUser
 }

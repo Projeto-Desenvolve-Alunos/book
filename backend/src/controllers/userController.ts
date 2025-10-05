@@ -20,8 +20,8 @@ async function getUserById(req: Request, res: Response){
         const idNumber = parseInt(idAsString); 
 
         if (isNaN(idNumber)) {
-        return res.status(400).json({ message: "ID de usuário inválido. O ID deve ser um número." });
-    }
+          return res.status(400).json({ message: "ID de usuário inválido. O ID deve ser um número." });
+        }
 
         const user = await UserService.getUserById(idNumber);
         if(!user){
@@ -35,7 +35,7 @@ async function getUserById(req: Request, res: Response){
     }
 }
 
-export async function addUser(req: Request, res: Response) {
+async function addUser(req: Request, res: Response) {
   try {
     const {
         nome,
@@ -59,8 +59,35 @@ export async function addUser(req: Request, res: Response) {
   }
 }
 
+async function updateUser(req: Request, res: Response) {
+  try {
+    const id = Number(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "ID inválido" });
+    }
+
+    const updatedUser = await UserService.updateUser(id, req.body);
+    return res.status(200).json(updatedUser);
+  } catch (error: any) {
+    return res.status(400).json({ message: error.message });
+  }
+}
+
+async function deleteUserId(req: Request, res: Response){
+  try {
+    const { id } = req.params;
+
+    const result = await UserService.deleteUser(Number(id));
+    return res.status(200).json(result);
+  } catch (error: any) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
 export const userController = {
     getAllUsers,
     getUserById,
-    addUser
+    addUser,
+    updateUser,
+    deleteUserId
 }
