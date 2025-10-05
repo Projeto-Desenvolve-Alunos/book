@@ -12,6 +12,31 @@ async function getAllUsers(_req: Request, res: Response){
     }
 }
 
+async function getUserById(req: Request, res: Response){
+    try {
+        const { id } = req.params;
+
+        const idAsString = id ?? ""; 
+        const idNumber = parseInt(idAsString); 
+
+        if (isNaN(idNumber)) {
+        return res.status(400).json({ message: "ID de usuário inválido. O ID deve ser um número." });
+    }
+
+        const user = await UserService.getUserById(idNumber);
+        if(!user){
+            return res.status(404).json({message: "Usuário não encontrado"});
+        }
+
+        return res.status(200).json(user);
+    } catch (error) {
+        console.error("Erro no Controller getAllusers:", error);
+        return res.status(500).json({ error: "Erro interno ao buscar usuario" });
+    }
+}
+
+
 export const userController = {
-    getAllUsers
+    getAllUsers,
+    getUserById
 }
