@@ -12,7 +12,24 @@ async function getUserById(id: number){
     return user
 }
 
+async function addUser(data: {
+        nome: string,
+        email: string,
+        senha: string,
+    }) {
+    const novoUsuario = await prisma.usuario.create({
+        data:{
+            nome: data.nome,
+            email: data.email,
+            senha: data.senha
+        }
+    })
+    
+    return novoUsuario;
+}
+
 export const UserService = {
     getAllUsers,
-    getUserById
+    getUserById,
+    addUser
 }

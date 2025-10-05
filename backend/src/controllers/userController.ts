@@ -35,8 +35,32 @@ async function getUserById(req: Request, res: Response){
     }
 }
 
+export async function addUser(req: Request, res: Response) {
+  try {
+    const {
+        nome,
+        email,
+        senha
+    } = req.body;
+
+    if (!nome || !email || !senha) {
+      return res.status(400).json({ error: "Preencha todos os campos." });
+    }
+
+    const novoUsuario = await UserService.addUser({
+        nome,
+        email,
+        senha
+    });
+
+    return res.status(201).json(novoUsuario);
+  } catch (error: any) {
+    return res.status(400).json({ error: error.message });
+  }
+}
 
 export const userController = {
     getAllUsers,
-    getUserById
+    getUserById,
+    addUser
 }
