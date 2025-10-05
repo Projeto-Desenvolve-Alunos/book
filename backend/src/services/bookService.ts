@@ -44,9 +44,33 @@ async function addBook(data: {
   return book;
 }
 
+async function updateBook(id: string, data: {
+  title: string;
+  author: string;
+  genre?: string;
+  year?: number;
+  pages?: number;
+  rating?: number;
+  synopsis?: string;
+  cover?: string;
+  usuarioId: number;
+
+  status: "QUERO_LER",
+  currentPage: 0,
+  notes: "",
+}) {
+  const updatedBook = await prisma.livro.update({
+    where: { id },
+    data,
+  });
+
+  return updatedBook;
+}
+
 
 export const BookService = {
     getAllBooks,
     getBookById,
-    addBook
+    addBook,
+    updateBook
 };
