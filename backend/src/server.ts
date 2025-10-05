@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import bookRouter from "./routers/bookRouter.js";
+import userRouter from "./routers/userRouter.js"
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.get("/ping", (_req, res) => {
 });
 
 app.use("/books", bookRouter);
+app.use("/users", userRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
